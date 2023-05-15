@@ -27,6 +27,10 @@ fn main() {
     let locale_path = format!("{workdir}/**/locales/**/*.yml");
     if let Ok(globs) = glob::glob(&locale_path) {
         for entry in globs {
+            if entry.is_err() {
+                continue;
+            }
+
             let entry = entry.unwrap();
             println!("cargo:rerun-if-changed={}", entry.display());
         }
